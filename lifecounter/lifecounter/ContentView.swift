@@ -8,29 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
-//    @State private var lives: [Int];
-//    var players: [Int] = [1, 2, 3, 4]
-    
     @State private var lives : [Int] = [5, 5, 5, 5]
+    @State private var isPortrait = false
     
     var body: some View {
-//        VStack {
-//            ForEach(players) { player in
-//                PlayerView(player: player)
-//            }
-//        }
         VStack {
-            HStack(alignment: .top) {
+            if (isPortrait) {
                 PlayerView(player: 0, lives: self.$lives[0])
                 PlayerView(player: 1, lives: self.$lives[1])
-            }
-            .frame(maxWidth: .infinity)
-
-            HStack(alignment: .top) {
                 PlayerView(player: 2, lives: self.$lives[2])
                 PlayerView(player: 3, lives: self.$lives[3])
+            } else {
+                HStack {
+                    PlayerView(player: 0, lives: self.$lives[0])
+                    PlayerView(player: 1, lives: self.$lives[1])
+                }
+                HStack {
+                    PlayerView(player: 2, lives: self.$lives[2])
+                    PlayerView(player: 3, lives: self.$lives[3])
+                }
             }
-            .frame(maxWidth: .infinity)
             
             VStack {
                 ForEach(0..<lives.count) { player in
@@ -41,8 +38,12 @@ struct ContentView: View {
             }
             .frame(height: 100)
         }
-//        .padding(.bottom, 100.0)
+        .padding(.top)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+            guard let scene = UIApplication.shared.windows.first?.windowScene else { return }
+            self.isPortrait = scene.interfaceOrientation.isPortrait
+        }
     }
 }
 
