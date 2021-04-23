@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var lives : [Int] = [5, 5, 5, 5]
-    @State private var isPortrait = false
+    @State private var isPortrait = true
     
     var body: some View {
         VStack {
