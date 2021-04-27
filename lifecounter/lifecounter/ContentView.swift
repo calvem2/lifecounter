@@ -8,67 +8,80 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var lives : [Int] = [5, 5, 5, 5]
-    @State private var isPortrait = true
-    @State private var value = 4
-    
-    func incrementPlayers() {
-        value = min(value + 1, 8)
-        lives = [Int](repeating: 5, count: value)
+    @State private var lives : [Int] = [5, 5, 5, 5, 5, 5, 5, 5] {
+        didSet {
+//            if (playing) {
+                print("hi")
+//                var losses = 0;
+//                for life in lives {
+//                    if (life == 0) {
+//                        losses += 1
+//                    }
+//                }
+//                // reset app state
+//                if (losses == lives.count - 1) {
+//                    players = 4
+//                    lives = [Int](repeating: 5, count: players)
+//                    playing = false
+//                }
+//            }
+        }
     }
-    
-    func decrementPlayers() {
-        value = max(value - 1, 2)
-        lives = [Int](repeating: 5, count: value)
-    }
+//    @State private var isPortrait = true
+    @State private var players = 4
+    @State private var playing = false
     
     var body: some View {
         VStack {
-            Stepper(onIncrement: incrementPlayers,
-                     onDecrement: decrementPlayers) {
-                Text("Players: \(value)")
-                    .font(.title3)
+            Text("Players: \(players)")
+                .font(.title3)
+            if (!playing) {
+                HStack {
+                    Button(action: {
+                        if (!playing && players + 1 <= 8) {
+                            players += 1
+                        }
+                    }) {
+                        Text("add player")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.white)
+                    }
+                    .padding(.all)
+                    .background(players < 8 ? /*@START_MENU_TOKEN@*/Color.blue/*@END_MENU_TOKEN@*/ : Color.gray)
+                    .disabled(players == 8 )
+                    
+                    Button(action: {
+                        if (!playing && players - 1 >= 2) {
+                            players -= 1
+                        }
+                    }) {
+                        Text("remove player")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.white)
+                    }
+                    .padding(.all)
+                    .background(players > 2 ? /*@START_MENU_TOKEN@*/Color.blue/*@END_MENU_TOKEN@*/ : Color.gray)
+                    .disabled(players == 2)
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
             
             ScrollView {
-                ForEach((0..<value), id: \.self) { player in
-                    PlayerView(player: player, lives: self.$lives[player])
+                ForEach((0..<players), id: \.self) { player in
+                    PlayerView(player: player, lives: self.$lives[player], playing: $playing)
                 }
-//                if (isPortrait) {
-//                    ForEach((0..<value), id: \.self) { player in
-//                        PlayerView(player: player, lives: self.$lives[player])
-//                    }
-////                    PlayerView(player: 0, lives: self.$lives[0])
-////                    PlayerView(player: 1, lives: self.$lives[1])
-////                    PlayerView(player: 2, lives: self.$lives[2])
-////                    PlayerView(player: 3, lives: self.$lives[3])
-//                } else {
-//                    HStack {
-//                        PlayerView(player: 0, lives: self.$lives[0])
-//                        PlayerView(player: 1, lives: self.$lives[1])
-//                    }
-//                    HStack {
-//                        PlayerView(player: 2, lives: self.$lives[2])
-//                        PlayerView(player: 3, lives: self.$lives[3])
-//                    }
-//                }
 
                 VStack {
-                    ForEach(0..<lives.count) { player in
+                    ForEach((0..<players), id: \.self) { player in
                         if (lives[player] <= 0) {
                             Text("Player \(player + 1) LOSES!")
                         }
                     }
                 }
-                .frame(height: 100)
+//                .frame(height: 100)
             }
             .padding(.top)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
-                guard let scene = UIApplication.shared.windows.first?.windowScene else { return }
-                self.isPortrait = scene.interfaceOrientation.isPortrait
-            }
         }
     }
 }

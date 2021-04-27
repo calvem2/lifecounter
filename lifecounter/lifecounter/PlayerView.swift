@@ -11,10 +11,11 @@ import Combine
 struct PlayerView: View {
     var player: Int
     @Binding var lives: Int
+    @Binding var playing: Bool
     @State private var livesToAdd = "5"
     @State private var livesToSub = "5"
 
-    let colors: [Color] = [Color.red, Color.pink, Color.orange, Color.yellow, Color.green, Color.blue, Color.purple, Color.gray]
+    let colors: [Color] = [Color.red, Color.pink, Color.orange, Color.yellow, Color.green, Color.accentColor, Color.blue, Color.purple]
 
     var body: some View {
         VStack {
@@ -34,6 +35,7 @@ struct PlayerView: View {
                 // +/- 1 lives
                 Button(action: {
                     lives = max(lives - 1, 0)
+                    playing = true
                 }) {
                     Text("-1")
                         .fontWeight(.heavy)
@@ -44,7 +46,10 @@ struct PlayerView: View {
                 .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.white/*@END_MENU_TOKEN@*/)
                 
                 Button(action: {
-                    lives += 1
+                    if (lives > 0) {
+                        lives += 1
+                        playing = true
+                    }
                 }) {
                     Text("+1")
                         .fontWeight(.heavy)
@@ -74,6 +79,7 @@ struct PlayerView: View {
                 
                     Button(action: {
                         lives = max(lives - Int(livesToSub)!, 0)
+                        playing = true
                     }) {
                         Text("-" + livesToSub)
                             .fontWeight(.heavy)
@@ -103,7 +109,10 @@ struct PlayerView: View {
                     .frame(width: 55.0, height: 25.0)
                 
                     Button(action: {
-                        lives += Int(livesToAdd)!
+                        if (lives > 0) {
+                            lives += Int(livesToAdd)!
+                            playing = true
+                        }
                     }) {
                         Text("+" + livesToAdd)
                             .fontWeight(.heavy)
@@ -118,7 +127,7 @@ struct PlayerView: View {
 
         }
         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-        .background(colors[player])
+        .background(lives > 0 ? colors[player] : Color.gray)
     }
 }
 
