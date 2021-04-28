@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		443048BC2638CC31002939FE /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443048BB2638CC31002939FE /* HistoryView.swift */; };
 		4491A42A2630EF9600C1C3B0 /* lifecounterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491A4292630EF9600C1C3B0 /* lifecounterApp.swift */; };
 		4491A42C2630EF9600C1C3B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491A42B2630EF9600C1C3B0 /* ContentView.swift */; };
 		4491A42E2630EF9A00C1C3B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4491A42D2630EF9A00C1C3B0 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		443048BB2638CC31002939FE /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		4491A4262630EF9600C1C3B0 /* lifecounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lifecounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4491A4292630EF9600C1C3B0 /* lifecounterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lifecounterApp.swift; sourceTree = "<group>"; };
 		4491A42B2630EF9600C1C3B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				4491A4292630EF9600C1C3B0 /* lifecounterApp.swift */,
 				4491A42B2630EF9600C1C3B0 /* ContentView.swift */,
+				443048BB2638CC31002939FE /* HistoryView.swift */,
 				4491A45A2630F3DF00C1C3B0 /* PlayerView.swift */,
 				4491A42D2630EF9A00C1C3B0 /* Assets.xcassets */,
 				4491A4322630EF9A00C1C3B0 /* Info.plist */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4491A45B2630F3DF00C1C3B0 /* PlayerView.swift in Sources */,
+				443048BC2638CC31002939FE /* HistoryView.swift in Sources */,
 				4491A42C2630EF9600C1C3B0 /* ContentView.swift in Sources */,
 				4491A42A2630EF9600C1C3B0 /* lifecounterApp.swift in Sources */,
 			);

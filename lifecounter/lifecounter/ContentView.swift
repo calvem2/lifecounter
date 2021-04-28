@@ -8,33 +8,53 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var lives : [Int] = [5, 5, 5, 5, 5, 5, 5, 5] {
-        didSet {
-//            if (playing) {
-                print("hi")
-//                var losses = 0;
-//                for life in lives {
-//                    if (life == 0) {
-//                        losses += 1
-//                    }
-//                }
-//                // reset app state
-//                if (losses == lives.count - 1) {
-//                    players = 4
-//                    lives = [Int](repeating: 5, count: players)
-//                    playing = false
-//                }
-//            }
+    @State private var lives : [Int] = [5, 5, 5, 5, 5, 5, 5, 5]
+    @State private var gameOver : Bool = false
+    @State private var winner : Int = -1
+    
+    func checkGameStatus() {
+        var losses = 0;
+        if (playing) {
+            print("hi")
+            for i in 0..<players {
+                if (lives[i] == 0) {
+                    losses += 1
+                }
+            }
+            
+            // reset app state if game over
+            if (losses == players - 1) {
+                players = 4
+                winner = lives.firstIndex(where: { $0 != 0 })! + 1
+                lives = [Int](repeating: 5, count: 8)
+                playing = false
+                gameOver = true
+            }
         }
     }
+    
+    
+    
 //    @State private var isPortrait = true
     @State private var players = 4
     @State private var playing = false
     
     var body: some View {
         VStack {
+            // switch views
+            Button(action: {
+                print("pushed")
+//                playerInfo[0].lives += 1
+            }) {
+                Text("history")
+                    .fontWeight(.bold)
+                    .foregroundColor(Color.blue)
+                    .multilineTextAlignment(.leading)
+            }
+            
             Text("Players: \(players)")
                 .font(.title3)
+            // add/remove players
             if (!playing) {
                 HStack {
                     Button(action: {
@@ -66,9 +86,10 @@ struct ContentView: View {
                 .padding(.horizontal)
             }
             
+            // player views
             ScrollView {
                 ForEach((0..<players), id: \.self) { player in
-                    PlayerView(player: player, lives: self.$lives[player], playing: $playing)
+                    PlayerView(player: player, lives: self.$lives[player])
                 }
 
                 VStack {
@@ -78,10 +99,17 @@ struct ContentView: View {
                         }
                     }
                 }
-//                .frame(height: 100)
             }
             .padding(.top)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onChange(of: lives) { value in
+                print(value)
+                playing = true
+                checkGameStatus()
+            }
+            .alert(isPresented: $gameOver) {
+                Alert(title: Text("Game over!"), message: Text("Player \(winner) won"), dismissButton: .default(Text("Play again!")))
+            }
         }
     }
 }
