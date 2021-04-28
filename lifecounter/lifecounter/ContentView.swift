@@ -26,7 +26,7 @@ struct ContentView: View {
         if (losses == players - 1) {
             players = 4
             winner = lives.firstIndex(where: { $0 != 0 })! + 1
-            lives = [Int](repeating: 5, count: 8)
+            lives = [Int](repeating: 20, count: 8)
             history = []
             playing = false
             gameOver = true
@@ -50,6 +50,18 @@ struct ContentView: View {
             
             Text("Players: \(players)")
                 .font(.title3)
+            
+            Button(action: {
+                players = 4
+                lives = [Int](repeating: 20, count: 8)
+                history = []
+                playing = false
+            }) {
+                Text("reset game")
+                    .fontWeight(.bold)
+                    .foregroundColor(Color.blue)
+                    .multilineTextAlignment(.leading)
+            }
             
             // toggle game and history views
             if (view == "game") {
