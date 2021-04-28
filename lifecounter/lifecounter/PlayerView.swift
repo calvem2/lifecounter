@@ -11,6 +11,7 @@ import Combine
 struct PlayerView: View {
     var player: Int
     @Binding var lives: Int
+    @Binding var playing: Bool
     @State private var livesToAdd = "5"
     @State private var livesToSub = "5"
 
@@ -34,6 +35,7 @@ struct PlayerView: View {
                 // +/- 1 lives
                 Button(action: {
                     lives = max(lives - 1, 0)
+                    playing = true
                 }) {
                     Text("-1")
                         .fontWeight(.heavy)
@@ -42,10 +44,12 @@ struct PlayerView: View {
                 .padding(.vertical)
                 .frame(width: 55.0, height: 40)
                 .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.white/*@END_MENU_TOKEN@*/)
+                .disabled(lives == 0)
                 
                 Button(action: {
                     if (lives > 0) {
                         lives += 1
+                        playing = true
                     }
                 }) {
                     Text("+1")
@@ -55,6 +59,7 @@ struct PlayerView: View {
                 .padding(.vertical)
                 .frame(width:55.0, height: 40)
                 .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.white/*@END_MENU_TOKEN@*/)
+                .disabled(lives == 0)
             
                 // - some number of lives
                 VStack {
@@ -76,6 +81,7 @@ struct PlayerView: View {
                 
                     Button(action: {
                         lives = max(lives - Int(livesToSub)!, 0)
+                        playing = true
                     }) {
                         Text("-" + livesToSub)
                             .fontWeight(.heavy)
@@ -84,6 +90,7 @@ struct PlayerView: View {
                     .padding(.vertical)
                     .frame(width: 55.0, height: 40)
                     .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.white/*@END_MENU_TOKEN@*/)
+                    .disabled(lives == 0)
                 }
                 
                 // + some number of lives
@@ -107,6 +114,7 @@ struct PlayerView: View {
                     Button(action: {
                         if (lives > 0) {
                             lives += Int(livesToAdd)!
+                            playing = true
                         }
                     }) {
                         Text("+" + livesToAdd)
@@ -116,7 +124,7 @@ struct PlayerView: View {
                     .padding(.vertical)
                     .frame(width: 55.0, height: 40)
                     .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.white/*@END_MENU_TOKEN@*/)
-                
+                    .disabled(lives == 0)
                 }
             }
 
